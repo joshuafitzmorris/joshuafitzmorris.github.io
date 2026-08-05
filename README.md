@@ -121,10 +121,10 @@ the personal `joshuafitzmorris` account.
 configured to serve that branch. To ship a change:
 
 ```bash
-pnpm deploy
+pnpm ship
 ```
 
-That refuses to run on a dirty tree, builds, sanity-checks the output, pushes
+(`deploy` is a reserved pnpm command, hence `ship`.) That refuses to run on a dirty tree, builds, sanity-checks the output, pushes
 `out/` to `gh-pages` through a temporary worktree, and asks Pages for a
 rebuild. Pages usually takes 30 to 60 seconds to swap over.
 

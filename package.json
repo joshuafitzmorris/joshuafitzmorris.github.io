@@ -11,7 +11,7 @@
     "typecheck": "tsc --noEmit",
     "prebuild": "node scripts/generate-og.mjs",
     "og": "node scripts/generate-og.mjs",
-    "deploy": "bash scripts/deploy.sh"
+    "ship": "bash scripts/deploy.sh"
   },
   "dependencies": {
     "next": "15.5.4",
