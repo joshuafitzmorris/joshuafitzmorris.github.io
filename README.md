@@ -90,36 +90,60 @@ are checked against WCAG AA: every text colour clears 4.5:1 on its field.
 
 ## Social preview
 
-[`app/opengraph-image.tsx`](app/opengraph-image.tsx) renders the 1200×630 link
-card at build time, in the same field/ink/splash language as the page. Satori
-cannot parse variable fonts, so `assets/` holds two static instances pinned
-out of the Newsreader variable family (wght 600 roman, wght 500 italic, both
-at optical size 36).
+[`scripts/generate-og.mjs`](scripts/generate-og.mjs) renders the 1200×630 link
+card into `public/opengraph-image.png`, in the same field/ink/splash language
+as the page. It runs automatically on `prebuild`, or on demand:
+
+```bash
+pnpm og
+```
+
+Two things this deliberately does *not* do, both learned the hard way:
+
+- It does not use Next's `app/opengraph-image` convention. That emits an
+  **extensionless** `/opengraph-image`, which GitHub Pages serves as
+  `application/octet-stream` and LinkedIn's crawler drops. The convention also
+  overrides any explicit `openGraph.images` in metadata, so it cannot simply be
+  repointed at a `.png`.
+- It does not register the two fonts at their real weights. Satori cannot parse
+  variable fonts, so `assets/` holds static instances pinned out of the
+  Newsreader variable family (wght 600 roman, wght 500 italic, optical size
+  36) — but declaring those weights makes unweighted text resolve to the nearer
+  face and sets the whole card in italic. Both register at 400 so *style*
+  selects between them.
 
 ## Deploying
 
-The build is a static directory, so any host works.
+Live at **https://joshuafitzmorris.github.io/**, served by GitHub Pages from
+the personal `joshuafitzmorris` account.
 
-**Vercel** (zero config, detects Next.js):
-
-```bash
-npx vercel deploy --prod
-```
-
-**Cloudflare Pages / Netlify / S3 / GitHub Pages** — build command
-`pnpm build`, publish directory `out`.
-
-Not yet a git repository. To start one:
+`main` holds the source. `gh-pages` holds only the built output, and Pages is
+configured to serve that branch. To ship a change:
 
 ```bash
-git init && git add -A && git commit -m "Initial site"
+pnpm deploy
 ```
 
-### Before it is live
+That refuses to run on a dirty tree, builds, sanity-checks the output, pushes
+`out/` to `gh-pages` through a temporary worktree, and asks Pages for a
+rebuild. Pages usually takes 30 to 60 seconds to swap over.
 
+There is no GitHub Actions workflow because the local `gh` token lacks the
+`workflow` scope and so cannot push `.github/workflows/`. If that scope is
+added later (`gh auth refresh -s workflow`), this is worth replacing with the
+standard `upload-pages-artifact` / `deploy-pages` job.
+
+### Notes
+
+- The repo is public, which GitHub Pages requires on a free plan. The résumé
+  PDF it serves carries a phone number; that is the same file already sent to
+  recruiters, but it is now crawlable. Remove it from `public/` if that is not
+  wanted.
 - `joshuafitzmorris.ca` had **no DNS records** as of the 2026-08-01 profile
-  review, so the domain needs to be renewed or re-pointed before the LinkedIn
-  contact link resolves. Until then, `person.siteUrl` in `content/site.ts`
-  should be changed to whatever URL is actually serving the site, because the
-  canonical link, sitemap, and Open Graph image URLs are all built from it.
-- The site publishes an email address but deliberately **not** a phone number.
+  review. To move the site there once the domain resolves: point a `CNAME`
+  record at `joshuafitzmorris.github.io`, add a `public/CNAME` file containing
+  `joshuafitzmorris.ca`, and update `person.siteUrl` in `content/site.ts` (the
+  canonical link, sitemap, and Open Graph URL all derive from it).
+- Deploys go out under the **personal** GitHub account. `gh` also has the
+  `joshuafitz-morris-ollon` employer account; `gh auth switch` changes which
+  one is active, so check with `gh api user --jq .login` if a push is rejected.
