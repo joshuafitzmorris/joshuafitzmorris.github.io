@@ -39,7 +39,7 @@ export const hero = {
   eyebrow: "Lead Software Engineer",
   display: heroDisplay,
   lede:
-    "For the last five years I have built full-stack, cloud, and AI systems for enterprise clients out of a Vancouver consultancy. Most recently as the sole code owner of a seven-service document intelligence and agent platform, taken from an empty repository to live production in 28 weeks.",
+    "For the last five years I have built full-stack, cloud, and AI systems for enterprise clients out of a Vancouver consultancy. Most recently as the sole code owner of a seven-service GCP platform spanning document intelligence, semantic retrieval, and agents, taken from an empty repository to live production in 28 weeks.",
 } as const;
 
 /** The proof line. Bare numbers on the field, no boxes. */
@@ -69,18 +69,19 @@ export type Project = {
 
 export const work: Project[] = [
   {
-    slug: "capri",
-    name: "ACERO / Capri",
-    kind: "AI document intelligence & agent platform",
+    slug: "ingestai",
+    name: "IngestAI",
+    kind: "Document intelligence, semantic retrieval & agent platform",
     org: "Ollon",
     period: "2026",
     summary:
-      "A seven-service, three-environment platform that reads a company's paperwork, extracts it under evaluation, puts a human on the uncertain calls, and delivers the result to a system of record.",
+      "A seven-service, three-environment GCP platform that reads a company's paperwork, extracts it under evaluation, puts a human on the uncertain calls, and then lets agents answer questions across the whole corpus from grounded sources.",
     body: [
       "I was the primary technical owner and sole repository CODEOWNER, from the first commit to production traffic in 28 weeks across 429 merged pull requests.",
-      "The core is multi-tenant ingestion of PDF, XLSX, and Google Sheets through Gemini extraction, confidence scoring, human review, and system-of-record delivery. Fourteen of fourteen validated production pushes landed with zero orphaned records, which is the number I care about most: the pipeline either delivers a complete job or it delivers nothing.",
-      "Extraction quality was treated as an engineering problem rather than a prompt problem. A golden-data evaluation harness moved quantity recall from 37% to 99%, and reached 96.3% precision at 91% coverage on a taxonomy mapping field that had resisted every heuristic before it.",
-      "On top of that sits semantic retrieval across 26,000 historical documents at 99.98% embedding coverage, and a governed MCP and agent architecture: 40 tools and 21 BI views, with tenant and principal isolation, audited queries, and answers grounded in a cited source.",
+      "The intake half is multi-tenant ingestion of PDF, XLSX, and Google Sheets through Gemini extraction, confidence scoring, human review, and system-of-record delivery. Fourteen of fourteen validated production pushes landed with zero orphaned records, which is the number I care about most: the pipeline either delivers a complete job or it delivers nothing.",
+      "The semantic layer is mine end to end. Chunking and embedding workers cover 26,000 historical documents at 99.98% coverage and feed pgvector retrieval, so the agents answer from grounded source passages rather than from the extraction database alone.",
+      "On top of that sits a governed MCP server and agent architecture: 40 tools over 21 BI views, with tenant and principal isolation, audited queries, answers grounded in a cited source, and conversational surfaces deployed on Gemini Enterprise.",
+      "Extraction quality was treated as an engineering problem rather than a prompt problem. A golden-data evaluation harness wired into CI as a release gate moved quantity recall from 37% to 99%, and reached 96.3% precision at 91% coverage on a taxonomy mapping field that had resisted every heuristic before it.",
       "The unglamorous half was making it a good place to work. CI runtime came down 52%, and the local unit test loop went from 10.5 minutes to 15.6 seconds.",
     ],
     outcomes: [
@@ -97,9 +98,11 @@ export const work: Project[] = [
       "TypeScript",
       "Gemini",
       "MCP",
+      "Agents",
       "PostgreSQL / pgvector",
       "BigQuery",
       "Cloud Run",
+      "Pub/Sub",
       "Terraform",
     ],
     palette: "warm",
