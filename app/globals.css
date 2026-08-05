@@ -1,0 +1,327 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ---------------------------------------------------------------------------
+   The field
+   A gallery-white ground with generous air. Boxes must be earned: content
+   sits bare on the field, separated by hairlines and space, and a card is an
+   exception with a reason. Chrome is ink and never carries a hue.
+   --------------------------------------------------------------------------- */
+
+:root {
+  color-scheme: light;
+
+  --field: #fcfcfb;
+  --field-sunk: #f6f5f2;
+  --ink: #17110d;
+  --ink-soft: #4a4139;
+  --ink-muted: #7b7167;
+  --hairline: rgb(23 17 13 / 0.11);
+  --hairline-strong: rgb(23 17 13 / 0.2);
+  --on-cta: #fcfcfb;
+
+  /* Watercolor pigments. Content and atmosphere only, never chrome. */
+  --coral: 233 117 91;
+  --butter: 242 200 106;
+  --lilac: 196 178 230;
+  --herb: 147 172 127;
+
+  --splash-alpha: 0.34;
+  --splash-blur: 56px;
+
+  --shell: 88rem;
+  --gutter: clamp(1.35rem, 5vw, 5.5rem);
+
+  /* Declared as real custom properties, not only as `@theme inline` tokens,
+     so hand-written CSS below can reach them too. */
+  --face-display: var(--font-newsreader), ui-serif, "New York", Georgia, serif;
+  --face-sans: var(--font-inter), ui-sans-serif, -apple-system, "SF Pro Text",
+    system-ui, sans-serif;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --field: #0e1210;
+  --field-sunk: #141917;
+  --ink: #eceae4;
+  --ink-soft: #c3c1b9;
+  --ink-muted: #8e938a;
+  --hairline: rgb(236 234 228 / 0.13);
+  --hairline-strong: rgb(236 234 228 / 0.24);
+  --on-cta: #0e1210;
+
+  /* Dimmed to a glow rather than a wash. */
+  --splash-alpha: 0.26;
+  --splash-blur: 72px;
+}
+
+@theme inline {
+  --color-field: var(--field);
+  --color-field-sunk: var(--field-sunk);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-muted: var(--ink-muted);
+  --color-hairline: var(--hairline);
+  --color-hairline-strong: var(--hairline-strong);
+  --color-on-cta: var(--on-cta);
+
+  --font-display: var(--face-display);
+  --font-sans: var(--face-sans);
+
+  --spacing-gutter: var(--gutter);
+  --container-shell: var(--shell);
+}
+
+/* ---------------------------------------------------------------------------
+   Base
+   --------------------------------------------------------------------------- */
+
+* {
+  border-color: var(--hairline);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--field);
+  color: var(--ink);
+  font-family: var(--face-sans);
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* `clip` rather than `hidden`: hidden would make the body a scroll
+     container and silently kill every `position: sticky` on the page. */
+  overflow-x: clip;
+}
+
+/* Paper tooth. Barely there, but it keeps the white from reading as a screen. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.028;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+[data-theme="dark"] body::before {
+  opacity: 0.05;
+}
+
+::selection {
+  background: var(--ink);
+  color: var(--on-cta);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ---------------------------------------------------------------------------
+   Type
+   Serif semibold is the display voice, with the italic gesture reserved for a
+   single key word. Structure labels are small-caps eyebrows. Hierarchy comes
+   from size and weight, never hue.
+   --------------------------------------------------------------------------- */
+
+.display {
+  font-family: var(--face-display);
+  font-weight: 600;
+  letter-spacing: -0.021em;
+  line-height: 1.03;
+  text-wrap: balance;
+}
+
+.display em {
+  font-style: italic;
+  font-weight: 500;
+}
+
+.eyebrow {
+  font-family: var(--face-sans);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.19em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  line-height: 1;
+}
+
+.prose-body {
+  font-size: clamp(1rem, 0.96rem + 0.2vw, 1.1rem);
+  line-height: 1.68;
+  color: var(--ink-soft);
+  text-wrap: pretty;
+  max-width: 62ch;
+}
+
+.numeral {
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* ---------------------------------------------------------------------------
+   Chrome is ink
+   --------------------------------------------------------------------------- */
+
+.ink-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.78rem 1.4rem;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--on-cta);
+  font-size: 0.875rem;
+  font-weight: 550;
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+  transition:
+    transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 260ms ease;
+}
+
+.ink-pill:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+.ink-pill:active {
+  transform: translateY(0);
+}
+
+.underline-action {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--ink);
+  padding-block: 0.2rem;
+}
+
+.underline-action::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.28;
+  transform-origin: left;
+  transition:
+    opacity 240ms ease,
+    transform 340ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.underline-action:hover::after {
+  opacity: 1;
+  transform: scaleX(1.02);
+}
+
+/* The one earned surface: the review stack. */
+.surface-card {
+  background: var(--field-sunk);
+  border: 1px solid var(--hairline);
+  border-radius: 1.15rem;
+}
+
+/* ---------------------------------------------------------------------------
+   The app breathes
+   Screens inhale on arrival with a staggered fade and rise. Everything honors
+   Reduce Motion with a still, instant page.
+   --------------------------------------------------------------------------- */
+
+/*
+ * Gated on `data-anim`, which the head script only sets when scripting is
+ * live, IntersectionObserver exists, and the visitor has not asked for less
+ * motion. Without that attribute the content is simply visible, so no reader
+ * can ever end up staring at a page held at opacity 0 by a script that did
+ * not run.
+ */
+[data-anim="on"] .breathe {
+  opacity: 0;
+  transform: translateY(18px);
+  filter: blur(3px);
+  transition:
+    opacity 900ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 900ms cubic-bezier(0.16, 1, 0.3, 1),
+    filter 900ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--breathe-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+[data-anim="on"] .breathe[data-inhaled="true"] {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+@keyframes splash-breathe {
+  0%,
+  100% {
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+  50% {
+    transform: scale(1.075) translate3d(1.5%, -1.5%, 0);
+  }
+}
+
+.splash-lobe {
+  animation: splash-breathe 6500ms ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .breathe,
+  [data-anim="on"] .breathe {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+
+  .splash-lobe,
+  .ink-pill,
+  .underline-action::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Print. A recruiter who hits Cmd-P should get something readable.
+   --------------------------------------------------------------------------- */
+
+@media print {
+  :root {
+    --field: #ffffff;
+    --ink: #000000;
+    --ink-soft: #222222;
+  }
+
+  body::before,
+  .no-print {
+    display: none !important;
+  }
+
+  .breathe {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}
