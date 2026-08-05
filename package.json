@@ -8,7 +8,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "prebuild": "node scripts/generate-og.mjs",
+    "og": "node scripts/generate-og.mjs"
   },
   "dependencies": {
     "next": "15.5.4",

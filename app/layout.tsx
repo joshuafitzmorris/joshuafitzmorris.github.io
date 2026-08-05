@@ -19,6 +19,19 @@ const inter = Inter({
 const description =
   "Lead Software Engineer building production AI platforms, agents, and document intelligence. Sole code owner of a seven-service GCP platform delivered from inception to production in 28 weeks.";
 
+/**
+ * Declared explicitly rather than left to the file convention. The convention
+ * emits an extensionless `/opengraph-image`, which a plain static host serves
+ * as octet-stream, and LinkedIn's crawler drops it. `pnpm build` copies the
+ * generated PNG to this path (see the `postbuild` script).
+ */
+const ogImage = {
+  url: "/opengraph-image.png",
+  width: 1200,
+  height: 630,
+  alt: `${person.name} — ${person.role}`,
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(person.siteUrl),
   title: {
@@ -52,11 +65,13 @@ export const metadata: Metadata = {
     url: person.siteUrl,
     siteName: person.name,
     locale: "en_CA",
+    images: [ogImage],
   },
   twitter: {
     card: "summary_large_image",
     title: `${person.name} — ${person.role}`,
     description,
+    images: [ogImage],
   },
   robots: { index: true, follow: true },
 };
