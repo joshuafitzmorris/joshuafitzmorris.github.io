@@ -325,3 +325,99 @@ body::before {
     filter: none !important;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Long-form writing
+   Bare prose on the field in the page's own voice. Code is the one thing
+   that earns a sunk panel: it is a different kind of text.
+   --------------------------------------------------------------------------- */
+
+.post {
+  margin-top: 2.75rem;
+}
+
+.post > * + * {
+  margin-top: 1.35rem;
+}
+
+.post p,
+.post li {
+  font-size: clamp(1rem, 0.96rem + 0.2vw, 1.1rem);
+  line-height: 1.72;
+  color: var(--ink-soft);
+  text-wrap: pretty;
+}
+
+.post h2,
+.post h3 {
+  font-family: var(--face-display);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.18;
+  color: var(--ink);
+  text-wrap: balance;
+  scroll-margin-top: 6rem;
+}
+
+.post h2 {
+  margin-top: 3.25rem;
+  font-size: clamp(1.45rem, 2.4vw, 1.85rem);
+}
+
+.post h3 {
+  margin-top: 2.5rem;
+  font-size: clamp(1.2rem, 2vw, 1.4rem);
+}
+
+.post ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+}
+
+.post li + li {
+  margin-top: 0.65rem;
+}
+
+.post li::marker {
+  color: var(--ink-muted);
+}
+
+.post a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--hairline-strong);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+  transition: text-decoration-color 200ms ease;
+}
+
+.post a:hover {
+  text-decoration-color: currentColor;
+}
+
+.post code {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.86em;
+  color: var(--ink);
+  background: var(--field-sunk);
+  border-radius: 4px;
+  padding: 0.12em 0.36em;
+}
+
+.post pre {
+  overflow-x: auto;
+  background: var(--field-sunk);
+  border: 1px solid var(--hairline);
+  border-radius: 8px;
+  padding: 1.15rem 1.3rem;
+}
+
+.post pre code {
+  display: block;
+  background: none;
+  padding: 0;
+  font-size: 0.84rem;
+  line-height: 1.7;
+  white-space: pre;
+}
+

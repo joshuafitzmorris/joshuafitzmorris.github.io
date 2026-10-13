@@ -13,6 +13,7 @@ import {
   principles,
   stack,
   work,
+  writing,
 } from "@/content/site";
 
 export default function Home() {
@@ -25,6 +26,7 @@ export default function Home() {
         <Metrics />
         <Work />
         <Building />
+        <Writing />
         <Approach />
         <Stack />
         <Contact />
@@ -75,6 +77,15 @@ function Hero() {
               className="underline-action"
             >
               LinkedIn
+              <ArrowUpRight />
+            </a>
+            <a
+              href={person.github}
+              target="_blank"
+              rel="noreferrer"
+              className="underline-action"
+            >
+              GitHub
               <ArrowUpRight />
             </a>
           </div>
@@ -321,6 +332,52 @@ function Building() {
 
 /* -------------------------------------------------------------------------- */
 
+function Writing() {
+  return (
+    <section id="writing" className="scroll-mt-16">
+      <Hairline />
+      <Shell>
+        <SectionHead
+          eyebrow="Writing"
+          title="Patterns, written up with the code."
+          lede="Each piece comes with a repository you can clone and run, because a pattern is a claim until the tests pass on someone else's machine."
+        />
+
+        <div className="pb-24 sm:pb-32">
+          {writing.map((post, i) => (
+            <Breathe
+              key={post.slug}
+              delay={i * 70}
+              className="grid gap-y-4 border-t border-hairline py-9 lg:grid-cols-12 lg:gap-x-16"
+            >
+              <p className="numeral eyebrow pt-2 lg:col-span-4">
+                <time dateTime={post.date}>{post.dateLabel}</time>
+              </p>
+              <div className="lg:col-span-8">
+                <h3 className="display text-[clamp(1.45rem,2.6vw,1.95rem)]">
+                  <a href={`/writing/${post.slug}/`}>{post.title}</a>
+                </h3>
+                <p className="prose-body mt-4">{post.dek}</p>
+                <div className="mt-6 flex flex-wrap items-center gap-x-8 gap-y-4">
+                  <a href={`/writing/${post.slug}/`} className="underline-action">
+                    Read the post
+                  </a>
+                  <a href={post.repo} target="_blank" rel="noreferrer" className="underline-action">
+                    The code on GitHub
+                    <ArrowUpRight />
+                  </a>
+                </div>
+              </div>
+            </Breathe>
+          ))}
+        </div>
+      </Shell>
+    </section>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+
 function Approach() {
   return (
     <section id="approach" className="scroll-mt-16">
@@ -433,6 +490,15 @@ function Contact() {
               className="underline-action"
             >
               {person.linkedinLabel}
+              <ArrowUpRight />
+            </a>
+            <a
+              href={person.github}
+              target="_blank"
+              rel="noreferrer"
+              className="underline-action"
+            >
+              {person.githubLabel}
               <ArrowUpRight />
             </a>
             <a href={person.resume} className="underline-action">

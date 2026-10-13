@@ -12,10 +12,12 @@ export const person = {
   headline:
     "Production AI Platforms, Agents & Document Intelligence · Python, FastAPI, React/TypeScript, Gemini, MCP · GCP/AWS",
   location: "Vancouver, BC",
-  availability: "Remote Canada / US · TN-eligible",
+  availability: "Remote Canada / US · Open to relocating to San Francisco · TN-eligible",
   email: "joshuafitzmorris09@gmail.com",
   linkedin: "https://www.linkedin.com/in/jfitzmor",
   linkedinLabel: "linkedin.com/in/jfitzmor",
+  github: "https://github.com/joshuafitzmorris",
+  githubLabel: "github.com/joshuafitzmorris",
   resume: "/Joshua_FitzMorris_Resume.pdf",
   // Swap to https://joshuafitzmorris.ca once that domain resolves again, and
   // add a CNAME file to public/. The canonical tag, sitemap, and Open Graph
@@ -244,6 +246,30 @@ export const building: SideProject[] = [
   },
 ];
 
+export type Post = {
+  slug: string;
+  title: string;
+  /** One or two sentences under the title, and the page description. */
+  dek: string;
+  /** ISO date, for <time> and the article metadata. */
+  date: string;
+  dateLabel: string;
+  /** Every post ships with code someone can run. */
+  repo: string;
+  /** The Markdown lives in content/posts/<slug>.md. */
+};
+
+export const writing: Post[] = [
+  {
+    slug: "deny-by-default-mcp",
+    title: "Deny-by-default MCP: making agent tools safe to hand to an LLM",
+    dek: "Keeping a model from choosing whose data it touches: required scope declarations, tenant-narrowed views, and a CI test that fails any tool whose answer depends on another tenant's data.",
+    date: "2026-10-13",
+    dateLabel: "October 2026",
+    repo: "https://github.com/joshuafitzmorris/mcp-scoped-server",
+  },
+];
+
 /** Drawn from the engineering constitutions I actually work to. */
 export const principles = [
   {
@@ -331,6 +357,7 @@ export const contact = {
 export const sections = [
   { id: "work", label: "Work" },
   { id: "building", label: "Building" },
+  { id: "writing", label: "Writing" },
   { id: "approach", label: "Approach" },
   { id: "stack", label: "Stack" },
   { id: "contact", label: "Contact" },

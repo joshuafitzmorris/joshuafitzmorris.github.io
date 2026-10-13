@@ -54,6 +54,10 @@ data edit, not a layout edit.
 - `metrics` — the proof row under the hero
 - `work` — client projects (summary, prose, outcomes, stack)
 - `building` — KitchenOS and Manifest
+- `writing` — posts. Each post's Markdown lives in `content/posts/<slug>.md` and is
+  rendered at `/writing/<slug>/` by [`components/Markdown.tsx`](components/Markdown.tsx),
+  a deliberately small renderer (headings, paragraphs, lists, code, links). A
+  construct it doesn't know renders as plain text, so check a new post locally.
 - `principles`, `stack`, `credentials`
 
 ### The résumé
